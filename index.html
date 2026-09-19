@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0C3B2A">
+
+    <!-- Splash: tampil sekali per sesi, dilewati bila pengunjung meminta pengurangan animasi -->
+    <script>
+        try {
+            if (!sessionStorage.getItem('splash-seen') &&
+                !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.documentElement.classList.add('splash-on');
+            }
+        } catch (e) { /* tanpa splash */ }
+    </script>
+
+    <!-- SEO -->
+    <title>Masjid Jami' Nurul Ilmi - Sukorejo, Gunungpati</title>
+    <meta name="description"
+        content="Profil resmi Masjid Jami' Nurul Ilmi (Masjid Sukorejo), Gunungpati, Semarang. Jadwal sholat hari ini, kajian Ahad pagi, pasar rakyat, i'tikaf Ramadan, lokasi, dan donasi.">
+    <meta name="keywords"
+        content="Masjid Jami' Nurul Ilmi, Masjid Sukorejo, jadwal sholat Gunungpati, Kajian Ahad Pagi Semarang, Masjid Gunungpati, YAKMIS, I'tikaf Ramadan Semarang, Pasar Rakyat Masjid">
+    <meta name="author" content="Zza-Tech Solutions">
+    <link rel="canonical" href="https://masjid-nurulilmi.pages.dev/">
+    <!-- Open Graph & Twitter -->
+    <meta property="og:title" content="Masjid Jami' Nurul Ilmi - Sukorejo">
+    <meta property="og:description"
+        content="Jadwal sholat, kajian, lokasi, dan kegiatan Masjid Jami' Nurul Ilmi Gunungpati, Semarang.">
+    <meta property="og:image" content="https://masjid-nurulilmi.pages.dev/assets/img/ogt.webp">
+    <meta property="og:url" content="https://masjid-nurulilmi.pages.dev/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="id_ID">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Favicon (emoji, tanpa file tambahan). Ganti dengan logo masjid bila sudah ada. -->
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%95%8C%3C/text%3E%3C/svg%3E">
+
+    <!-- Data terstruktur untuk Google -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Mosque",
+        "name": "Masjid Jami' Nurul Ilmi",
+        "alternateName": "Masjid Sukorejo",
+        "url": "https://masjid-nurulilmi.pages.dev",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Jl. Dewi Sartika Raya No. 78, Sukorejo, Gunungpati",
+            "addressLocality": "Semarang",
+            "addressRegion": "Jawa Tengah",
+            "addressCountry": "ID"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -7.021122,
+            "longitude": 110.388571
+        }
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap 5 & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <!-- Splash screen: dekoratif, hilang otomatis (~1,5 detik) atau saat disentuh/ditekan tombol apa pun -->
+    <div class="splash" id="splash" aria-hidden="true">
+        <p class="splash-basmalah" lang="ar" dir="rtl">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+        <span class="splash-line"></span>
+        <p class="splash-name">Masjid Jami' Nurul Ilmi</p>
+        <p class="splash-hint">Ketuk untuk lanjut</p>
+    </div>
+
+    <a class="skip-link" href="#konten">Lewati ke konten utama</a>
+
+    <!-- Navigasi -->
+    <nav class="navbar navbar-expand-lg site-nav sticky-top" aria-label="Navigasi utama">
+        <div class="container">
+            <a class="navbar-brand" href="#beranda">Masjid Jami' Nurul Ilmi</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuUtama"
+                aria-controls="menuUtama" aria-expanded="false" aria-label="Buka menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="menuUtama">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+                    <li class="nav-item"><a class="nav-link" href="#jadwal">Jadwal sholat</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#kegiatan">Kegiatan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#fasilitas">Fasilitas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#lokasi">Lokasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#infaq">Infaq</a></li>
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <button type="button" class="btn btn-sm btn-outline-success" data-action="share">
+                            <i class="bi bi-share-fill me-1" aria-hidden="true"></i> Bagikan
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero: nama masjid + sholat berikutnya -->
+    <header class="hero" id="beranda">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-copy">
+                    <h1>Masjid Jami' Nurul Ilmi</h1>
+                    <p class="hero-lead">Kajian rutin, pasar rakyat, dan i'tikaf Ramadan di Sukorejo. Terbuka untuk
+                        umum.</p>
+                    <p class="hero-address">
+                        <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
+                        <span>Jl. Dewi Sartika Raya No. 78, Sukorejo, Gunungpati, Kota Semarang</span>
+                    </p>
+                    <div class="d-flex flex-column flex-sm-row gap-3">
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=-7.021122,110.388571"
+                            target="_blank" rel="noopener noreferrer" class="btn btn-light btn-lg px-4">
+                            <i class="bi bi-sign-turn-right-fill me-2" aria-hidden="true"></i> Petunjuk arah
+                        </a>
+                        <a href="#jadwal" class="btn btn-outline-light btn-lg px-4">
+                            <i class="bi bi-clock me-2" aria-hidden="true"></i> Jadwal sholat
+                        </a>
+                    </div>
+                </div>
+
+                <aside class="next-prayer" id="nextPrayer" aria-label="Status waktu sholat">
+                    <p class="np-label" id="npLabel">Sholat berikutnya</p>
+                    <p class="np-name" id="npName">Memuat jadwal</p>
+                    <p class="np-time" id="npTime">--.--</p>
+                    <p class="np-countdown" id="npCountdown">Mengambil jadwal sholat hari ini...</p>
+                    <p class="np-date" id="npDate"></p>
+                </aside>
+            </div>
+        </div>
+    </header>
+
+    <main id="konten">
+
+        <!-- Jadwal sholat -->
+        <section class="section" id="jadwal">
+            <div class="container">
+                <h2>Jadwal sholat hari ini</h2>
+                <p class="section-intro">Waktu adzan mengikuti perhitungan Kementerian Agama RI untuk wilayah
+                    Gunungpati. Iqamah dihitung dari jeda yang berlaku di masjid ini.</p>
+
+                <div class="split">
+                    <div>
+                        <div class="table-scroll">
+                            <table class="prayer-table" id="prayerTable">
+                                <caption class="visually-hidden">Jadwal adzan dan iqamah hari ini</caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Waktu</th>
+                                        <th scope="col" class="num">Adzan</th>
+                                        <th scope="col" class="num">Iqamah</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-prayer="Fajr">
+                                        <th scope="row">Subuh</th>
+                                        <td class="num" data-col="adzan">--.--</td>
+                                        <td class="num" data-col="iqamah">--.--</td>
+                                    </tr>
+                                    <tr data-prayer="Dhuhr">
+                                        <th scope="row">Dzuhur</th>
+                                        <td class="num" data-col="adzan">--.--</td>
+                                        <td class="num" data-col="iqamah">--.--</td>
+                                    </tr>
+                                    <tr data-prayer="Asr">
+                                        <th scope="row">Ashar</th>
+                                        <td class="num" data-col="adzan">--.--</td>
+                                        <td class="num" data-col="iqamah">--.--</td>
+                                    </tr>
+                                    <tr data-prayer="Maghrib">
+                                        <th scope="row">Maghrib</th>
+                                        <td class="num" data-col="adzan">--.--</td>
+                                        <td class="num" data-col="iqamah">--.--</td>
+                                    </tr>
+                                    <tr data-prayer="Isha">
+                                        <th scope="row">Isya</th>
+                                        <td class="num" data-col="adzan">--.--</td>
+                                        <td class="num" data-col="iqamah">--.--</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="table-note">
+                            Terbit matahari: <strong id="sunrise">--.--</strong> WIB.
+                            Jeda adzan ke iqamah: 15 menit untuk Subuh, 10 menit untuk sholat lainnya.
+                            Selisih beberapa menit dengan pengumuman takmir bisa terjadi.
+                        </p>
+                        <p class="table-error" id="prayerError" hidden>
+                            Jadwal belum bisa dimuat. Periksa koneksi internet Anda.
+                            <button type="button" class="btn btn-sm btn-outline-success ms-2" id="retryPrayer">Coba
+                                lagi</button>
+                        </p>
+                        <noscript>
+                            <p class="table-error">Aktifkan JavaScript untuk melihat jadwal sholat hari ini.</p>
+                        </noscript>
+                    </div>
+
+                    <div class="notes">
+                        <div class="note-block">
+                            <i class="bi bi-people-fill" aria-hidden="true"></i>
+                            <div>
+                                <h3>Sholat Jumat</h3>
+                                <p>Tersedia setiap pekan. Kapasitas hingga 400 jamaah, termasuk area halaman luar.</p>
+                            </div>
+                        </div>
+                        <div class="note-block">
+                            <i class="bi bi-door-open-fill" aria-hidden="true"></i>
+                            <div>
+                                <h3>Jam buka</h3>
+                                <p>Dari sebelum Subuh hingga pukul 22.00 WIB. Musafir dipersilakan singgah.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kegiatan -->
+        <section class="section section-alt" id="kegiatan">
+            <div class="container">
+                <h2>Kegiatan rutin</h2>
+                <p class="section-intro">Semua kegiatan terbuka untuk umum. Datang saja, tidak perlu mendaftar.</p>
+
+                <div class="agenda">
+                    <article class="agenda-row">
+                        <div class="agenda-when">
+                            <span class="day">Setiap Ahad</span>
+                            <span class="hour">Ba'da Subuh</span>
+                        </div>
+                        <div class="agenda-what">
+                            <h3>Pasar Rakyat Ahad Pagi</h3>
+                            <p>Menggerakkan ekonomi jamaah dan warga sekitar. Sekitar 450 voucher belanja senilai
+                                Rp5.000 dibagikan setiap pekan, ditambah program pinjaman modal usaha tanpa bunga
+                                sebesar Rp2,5 juta.</p>
+                        </div>
+                    </article>
+                    <article class="agenda-row">
+                        <div class="agenda-when">
+                            <span class="day">Setiap Ahad</span>
+                            <span class="hour">08.00 - 09.00 WIB</span>
+                        </div>
+                        <div class="agenda-what">
+                            <h3>Kajian Ahad Pagi</h3>
+                            <p>Kajian rutin yang dilengkapi sesi tahsin dan tafsir. Terbuka untuk semua kalangan.</p>
+                        </div>
+                    </article>
+                    <article class="agenda-row">
+                        <div class="agenda-when">
+                            <span class="day">Bulan Ramadan</span>
+                            <span class="hour">Malam ganjil</span>
+                        </div>
+                        <div class="agenda-what">
+                            <h3>I'tikaf Ramadan</h3>
+                            <p>Tahajud berjamaah, renungan malam, dan sahur gratis. Area jamaah putri tertutup dan aman,
+                                dengan akses wudu khusus.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tentang -->
+        <section class="section" id="tentang">
+            <div class="container">
+                <div class="split">
+                    <div>
+                        <h2>Tentang masjid</h2>
+                        <p class="prose">
+                            Masjid Jami' Nurul Ilmi, sebelumnya dikenal sebagai Masjid Sukorejo, berdiri sekitar tahun
+                            1983-1985 di bawah naungan Yayasan Kesejahteraan Mahasiswa Islam (YAKMIS) yang diinisiasi
+                            oleh alumni HMI. Letaknya dekat kawasan perumahan akademisi, sehingga masjid ini menjadi
+                            pusat pembinaan umat dan kegiatan sosial warga sekitar.
+                        </p>
+                    </div>
+                    <dl class="facts">
+                        <div>
+                            <dt>Berdiri</dt>
+                            <dd>Sekitar 1983-1985</dd>
+                        </div>
+                        <div>
+                            <dt>Nama lama</dt>
+                            <dd>Masjid Sukorejo</dd>
+                        </div>
+                        <div>
+                            <dt>Naungan</dt>
+                            <dd>Yayasan Kesejahteraan Mahasiswa Islam (YAKMIS)</dd>
+                        </div>
+                        <div>
+                            <dt>Wilayah</dt>
+                            <dd>Sukorejo, Gunungpati, Semarang</dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fasilitas -->
+        <section class="section section-alt" id="fasilitas">
+            <div class="container">
+                <h2>Fasilitas</h2>
+                <div class="facility-grid">
+                    <div class="facility">
+                        <i class="bi bi-p-circle" aria-hidden="true"></i>
+                        <div>
+                            <h3>Parkir</h3>
+                            <p>Area parkir motor luas. Parkir mobil terbatas di bahu jalan.</p>
+                        </div>
+                    </div>
+                    <div class="facility">
+                        <i class="bi bi-droplet" aria-hidden="true"></i>
+                        <div>
+                            <h3>Toilet dan tempat wudu</h3>
+                            <p>Terpisah untuk pria dan wanita, dan selalu dijaga kebersihannya.</p>
+                        </div>
+                    </div>
+                    <div class="facility">
+                        <i class="bi bi-luggage" aria-hidden="true"></i>
+                        <div>
+                            <h3>Ramah musafir</h3>
+                            <p>Buka dari sebelum Subuh hingga pukul 22.00 WIB.</p>
+                        </div>
+                    </div>
+                    <div class="facility">
+                        <i class="bi bi-fan" aria-hidden="true"></i>
+                        <div>
+                            <h3>Ruang sholat nyaman</h3>
+                            <p>Kipas angin dan karpet tebal yang dibersihkan secara berkala.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="section" id="faq">
+            <div class="container">
+                <h2>Pertanyaan yang sering diajukan</h2>
+                <div class="accordion faq" id="faqList">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq1" aria-expanded="false" aria-controls="faq1">Apakah ada sholat
+                                Jumat di sini?</button>
+                        </h3>
+                        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqList">
+                            <div class="accordion-body">Ya. Sholat Jumat diselenggarakan setiap pekan dengan kapasitas
+                                hingga 400 jamaah, termasuk area halaman luar.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">Bisakah saya memarkir
+                                mobil?</button>
+                        </h3>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqList">
+                            <div class="accordion-body">Area parkir motor luas, sedangkan parkir mobil terbatas di bahu
+                                jalan. Untuk Jumat dan kajian, sebaiknya datang lebih awal.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">Masjid buka sampai jam
+                                berapa?</button>
+                        </h3>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqList">
+                            <div class="accordion-body">Dari sebelum Subuh hingga pukul 22.00 WIB. Musafir dipersilakan
+                                singgah untuk beristirahat dan sholat.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">Apakah kajian Ahad
+                                pagi terbuka untuk umum?</button>
+                        </h3>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqList">
+                            <div class="accordion-body">Ya, terbuka untuk umum setiap Ahad pukul 08.00 - 09.00 WIB,
+                                dengan sesi tahsin dan tafsir.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">Bagaimana menghubungi
+                                pengurus?</button>
+                        </h3>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqList">
+                            <div class="accordion-body">Hubungi sekretariat lewat WhatsApp atau kirim pesan ke Instagram
+                                @masjid_nurulilmi. Kontak lengkap ada di bagian <a href="#kontak">Kontak</a>.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lokasi -->
+        <section class="section section-alt" id="lokasi">
+            <div class="container">
+                <div class="split split--map">
+                    <div class="map-frame">
+                        <iframe title="Peta lokasi Masjid Jami' Nurul Ilmi"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d571.885092550225!2d110.38857093515445!3d-7.021122502038996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e708ba990f7229d%3A0x50c72c2cc215781e!2sMasjid%20Jami'%20Nurul%20Ilmi!5e0!3m2!1sid!2sid!4v1789750355709!5m2!1sid!2sid"
+                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                    </div>
+                    <div>
+                        <h2>Lokasi</h2>
+                        <p class="prose">Jl. Dewi Sartika Raya No. 78, Sukorejo, Gunungpati, Kota Semarang. Mudah
+                            dijangkau dari area kampus dan permukiman warga.</p>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=-7.021122,110.388571"
+                            target="_blank" rel="noopener noreferrer" class="btn btn-brand mt-2">
+                            <i class="bi bi-sign-turn-right-fill me-2" aria-hidden="true"></i> Petunjuk arah
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kontak, pengurus, dan infaq -->
+        <section class="section" id="kontak">
+            <div class="container">
+                <div class="split split--minor-first">
+                    <div class="panel">
+                        <h2 class="h-panel">Pengurus</h2>
+                        <dl class="board">
+                            <!-- GANTI: isi nama-nama pengurus yang sebenarnya -->
+                            <div>
+                                <dt>Ketua DKM</dt>
+                                <dd>Bapak [Nama Ketua DKM]</dd>
+                            </div>
+                            <div>
+                                <dt>Sekretaris</dt>
+                                <dd>Bapak M. Fauroni</dd>
+                            </div>
+                            <div>
+                                <dt>Bendahara</dt>
+                                <dd>Bapak [Nama Bendahara]</dd>
+                            </div>
+                        </dl>
+                        <h3 class="h-sub">Kontak sekretariat</h3>
+                        <!-- GANTI: nomor WhatsApp asli (format wa.me: 62 tanpa 0 di depan, tanpa spasi/strip) -->
+                        <p class="contact-line"><i class="bi bi-whatsapp text-success" aria-hidden="true"></i>
+                            <a href="https://wa.me/6281234567890" target="_blank"
+                                rel="noopener noreferrer">0812-3456-XXXX</a>
+                        </p>
+                        <p class="contact-line"><i class="bi bi-instagram" style="color:#b02a5b" aria-hidden="true"></i>
+                            <a href="https://instagram.com/masjid_nurulilmi" target="_blank"
+                                rel="noopener noreferrer">@masjid_nurulilmi</a>
+                        </p>
+                    </div>
+
+                    <div class="panel donation" id="infaq">
+                        <h2 class="h-panel">Salurkan infaq dan sedekah</h2>
+                        <p class="donation-lead">Scan QRIS resmi masjid dengan aplikasi e-wallet atau m-banking, atau
+                            transfer ke rekening di bawah ini.</p>
+
+                        <div class="qris-frame">
+                            <!-- GANTI: simpan QRIS asli di assets/img/qris.png -->
+                            <img src="assets/img/qris.png" alt="Kode QRIS resmi Masjid Jami' Nurul Ilmi" width="250"
+                                height="250" data-fallback="#qrisFallback">
+                            <p class="qris-fallback" id="qrisFallback" hidden>QRIS akan segera tersedia. Untuk
+                                sementara, gunakan transfer rekening di bawah.</p>
+                        </div>
+
+                        <p class="bank-name">Bank Syariah Indonesia (BSI)</p>
+                        <!-- GANTI: nomor rekening asli pada teks dan pada data-copy -->
+                        <p class="bank-number" id="bankNumber">1234-XXXX-XXXX</p>
+                        <p class="bank-holder">a.n. Masjid Nurul Ilmi</p>
+                        <button type="button" class="btn btn-outline-success btn-sm" data-action="copy"
+                            data-copy="1234XXXXXXXX">
+                            <i class="bi bi-clipboard me-1" aria-hidden="true"></i> Salin nomor rekening
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container text-center">
+            <p class="mb-4">&copy; <span id="tahun">2026</span> Masjid Jami' Nurul Ilmi. Semua hak dilindungi.</p>
+            <div class="footer-brand">
+                <p class="small mb-3">Sistem informasi dan profil digital ini didukung oleh</p>
+
+                <!-- Menggunakan d-inline-flex dan gap-2 agar ikon dan teks sejajar rapi -->
+                <a href="https://zzatech.pythonanywhere.com" target="_blank" rel="noopener noreferrer"
+                    class="brand-link d-inline-flex align-items-center gap-2">
+
+                    <!-- Gambar Ikon (Atribut width & height disesuaikan jadi rasio 1:1) -->
+                    <img src="assets/img/icon_zzaTech.webp" alt="Logo zzaTech" class="zza-tech-icon" width="36"
+                        height="36">
+
+                    <!-- Teks Nama Agensi -->
+                    <span class="brand-text">zzaTech</span>
+
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast-note" id="toastNote" role="status" aria-live="polite"></div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>
